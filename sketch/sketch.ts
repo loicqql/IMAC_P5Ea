@@ -1,12 +1,5 @@
 import { ColorHelper } from "./ColorHelper";
 import * as p5 from "p5";
-import Default from "./import-example";
-import { log, logClass } from "./import-example";
-
-// TEST IMPORTS
-new Default().log();
-log();
-new logClass().log();
 
 let sketch = (p: p5) => {
   // GLOBAL VARS & TYPES
