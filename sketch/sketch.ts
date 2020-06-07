@@ -1,3 +1,12 @@
+import Default from "./import-example";
+import { log, logClass } from "./import-example";
+import { ColorHelper } from "./ColorHelper";
+
+// TEST IMPORTS
+new Default().log();
+log();
+new logClass().log();
+
 // GLOBAL VARS & TYPES
 let numberOfShapes = 15;
 let speed: p5.Element;
