@@ -3,16 +3,19 @@
   "version": "1.0.0",
   "description": "Project to quickly get something working in [p5.js](https://p5js.org/) and [typescript](https://www.typescriptlang.org/)",
   "scripts": {
+    "build": "tsc && rollup build/sketch.js --file bundle/bundle.js --format iife",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "run-p start-compile start-run",
+    "start": "run-p start-compile start-bundler start-run",
     "start-compile": "tsc --watch",
-    "start-run": "browser-sync start --server -w"
+    "start-run": "browser-sync start --server -w",
+    "start-bundler": "rollup build/sketch.js --file bundle/bundle.js --format iife --watch "
   },
   "homepage": "https://github.com/Gaweph/p5-typescript-starter#readme",
   "devDependencies": {
     "@types/p5": "^0.9.0",
-    "npm-run-all": "^4.1.5",
     "browser-sync": "^2.26.7",
+    "npm-run-all": "^4.1.5",
+    "rollup": "^2.14.0",
     "typescript": "^3.8.3"
   }
 }

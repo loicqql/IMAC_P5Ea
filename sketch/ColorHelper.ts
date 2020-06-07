@@ -1,28 +1,30 @@
+import * as p5 from "p5";
 export class ColorHelper {
-  private static getColorVector(c: p5.Color) {
-    return createVector(red(c), green(c), blue(c));
+  private static getColorVector(p: p5, c: p5.Color) {
+    return p.createVector(p.red(c), p.green(c), p.blue(c));
   }
 
-  public static rainbowColorBase() {
+  public static rainbowColorBase(p: p5) {
     return [
-      color("red"),
-      color("orange"),
-      color("yellow"),
-      color("green"),
-      color(38, 58, 150), // blue
-      color("indigo"),
-      color("violet"),
+      p.color("red"),
+      p.color("orange"),
+      p.color("yellow"),
+      p.color("green"),
+      p.color(38, 58, 150), // blue
+      p.color("indigo"),
+      p.color("violet"),
     ];
   }
 
   public static getColorsArray(
+    p: p5,
     total: number,
     baseColorArray: p5.Color[] = null
   ): p5.Color[] {
     if (baseColorArray == null) {
-      baseColorArray = ColorHelper.rainbowColorBase();
+      baseColorArray = ColorHelper.rainbowColorBase(p);
     }
-    var rainbowColors = baseColorArray.map((x) => this.getColorVector(x));
+    var rainbowColors = baseColorArray.map((x) => this.getColorVector(p, x));
 
     let colours = new Array<p5.Color>();
     for (var i = 0; i < total; i++) {
@@ -38,7 +40,7 @@ export class ColorHelper {
         colorPercentage
       );
 
-      colours.push(color(nameColor.x, nameColor.y, nameColor.z));
+      colours.push(p.color(nameColor.x, nameColor.y, nameColor.z));
     }
 
     return colours;

@@ -3,12 +3,11 @@
     "target": "es5",
     "removeComments": true,
     "preserveConstEnums": true,
-    "outDir": "./import-build",
+    "outDir": "./build",
     "sourceRoot": "./sketch/",
     "rootDir": "./sketch/",
     "sourceMap": true,
     "noImplicitAny": true,
-    "module": "umd"
-    // "module": "CommonJS"
+    "module": "ES6"
   }
 }
