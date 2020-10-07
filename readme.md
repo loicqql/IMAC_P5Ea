@@ -4,8 +4,8 @@ Forked from [https://github.com/Gaweph/p5-typescript-starter](https://github.com
 
 ## Getting Started
 
-You will need to have Node installed ([https://nodejs.org/](https://nodejs.org/))
-Download this repository and open it in your favorite IDE (I would **highly** recommend VS Code ([https://code.visualstudio.com/](https://code.visualstudio.com/)))
+You will need to have Node installed ([https://nodejs.org/](https://nodejs.org/))  
+Download this repository and open it in your favorite IDE (I would **highly** recommend VS Code ([https://code.visualstudio.com/](https://code.visualstudio.com/)))  
 Then open a terminal at the root of the folder (you can do it in VS Code by simply dragging up the bottom of the window) and type the following commands :
 
 ### Installing
@@ -46,5 +46,5 @@ Create a new repository and commit
 * *p5.min.js*
 * *p5.sound.min.js* if you are using this library
 
-Then in the **Settings** of your repository, under **GitHub Pages** set Source to *main* and click Save.
+Then in the **Settings** of your repository, under **GitHub Pages** set Source to *main* and click Save.  
 You can now see the url to your sketch under **GitHub Pages** ! (it might take a few minutes to be published online)
