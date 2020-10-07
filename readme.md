@@ -31,3 +31,16 @@ npm start
 ```
 
 A local version will now be running on [localhost:3000](http://localhost:3000)
+
+### Publishing online
+
+#### Using GitHub Pages
+
+Create a new repository and commit
+    - the *build* folder
+    - *index.html*
+    - *p5.min.js*
+    - *p5.sound.min.js* if you are using this library
+
+Then in the **Settings** of your repository, under **GitHub Pages** set Source to *main* and click Save.
+You can now see the url to your sketch under **GitHub Pages** ! (it might take a few minutes to be published online)
