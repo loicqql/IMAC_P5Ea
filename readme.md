@@ -34,7 +34,8 @@ npm i @types/p5 --save-dev
 npm start
 ```
 
-A local version will now be running on [localhost:3000](http://localhost:3000)
+A local version will now be running on [localhost:3000](http://localhost:3000)  
+You can now do all the p5 things you want in the __*sketch*__ folder.
 
 ### Publishing online
 
