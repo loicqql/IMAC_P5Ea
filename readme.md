@@ -45,7 +45,6 @@ Create a new repository and commit
 * the *build* folder
 * *index.html*
 * *p5.min.js*
-* *p5.sound.min.js* (only if you are using the sound library)
 
 Then in the **Settings** of your repository, under **GitHub Pages** set Source to *main* and click Save.  
 You can now see the url to your sketch under **GitHub Pages** ! (it might take a few minutes to be published online)
