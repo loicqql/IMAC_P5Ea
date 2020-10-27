@@ -21,13 +21,27 @@ function draw() {
 function desiredCanvasHeight(): number {
     return windowHeight
 }*/
-// Squared canvas with a margin
+// Canvas with a fixed aspect ratio
+const ASPECT_RATIO = 1
+const MARGIN_SIZE = 25 // in pixels
+
 function desiredCanvasWidth(): number {
-    const margin = 25 // in pixels
-    return min(windowWidth, windowHeight) - margin * 2
+    const windowRatio = windowWidth / windowHeight
+    if (ASPECT_RATIO > windowRatio) {
+        return windowWidth - MARGIN_SIZE * 2
+    }
+    else {
+        return desiredCanvasHeight() * ASPECT_RATIO
+    }
 }
 function desiredCanvasHeight(): number {
-    return desiredCanvasWidth()
+    const windowRatio = windowWidth / windowHeight
+    if (ASPECT_RATIO > windowRatio) {
+        return desiredCanvasWidth() / ASPECT_RATIO
+    }
+    else {
+        return windowHeight - MARGIN_SIZE * 2
+    }
 }
 // -------------------
 function windowResized() {
