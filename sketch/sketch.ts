@@ -16,18 +16,18 @@ function draw() {
 // -------------------
 // Fill the window
 /*function desiredCanvasWidth(): number {
-    return windowWidth;
+    return windowWidth
 }
 function desiredCanvasHeight(): number {
-    return windowHeight;
+    return windowHeight
 }*/
 // Squared canvas with a margin
 function desiredCanvasWidth(): number {
     const margin = 25 // in pixels
-    return min(windowWidth, windowHeight) - margin * 2;
+    return min(windowWidth, windowHeight) - margin * 2
 }
 function desiredCanvasHeight(): number {
-    return desiredCanvasWidth();
+    return desiredCanvasWidth()
 }
 // -------------------
 function windowResized() {
