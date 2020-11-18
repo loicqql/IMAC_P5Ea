@@ -10,7 +10,7 @@ Then open a terminal at the root of the folder (you can do it in VS Code by simp
 
 ### Installing
 
-Only type those commands the first time you use this template (-g means you install things globally)
+Only type those commands the first time you ever use this template (-g means you install things globally)
 
 ```
 npm i -g npm-run-all
