@@ -35,7 +35,7 @@ npm start
 ```
 
 A local version will now be running at [localhost:3000](http://localhost:3000)  
-You can now write all the p5 things you want in the __*sketch*__ folder
+You can now write all the p5 things you want in the __*src*__ folder
 
 ### Publishing online
 
