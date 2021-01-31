@@ -29,7 +29,7 @@ You can now write all the p5 things you want in __*src/sketch.ts*__
 
 #### Using GitHub Pages
 
-Create a new GitHub repository and commit all your files.
+Create a GitHub repository and commit all your files (if that's not already done)
 
 Then in the **Settings** of your repository, under **GitHub Pages** set Source to *main* and click Save.  
-You can now see the url to your sketch under **GitHub Pages** ! (it might take a few minutes to be published online)
+If you scroll back down to **GitHub Pages** you can now see the url of your sketch ! (it might take a few minutes to be published online)
