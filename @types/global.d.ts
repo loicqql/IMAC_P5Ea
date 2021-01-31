@@ -1,5 +1,7 @@
-// This file will add both p5 instanced and global intellisence 
+// This file will add both p5 instanced and global intellisence
+// @ts-ignore
 import module = require('p5');
+// @ts-ignore
 import * as p5Global from 'p5/global' 
 
 export = module;
@@ -9,4 +11,3 @@ declare global {
         p5: typeof module,
     }
 }
-
