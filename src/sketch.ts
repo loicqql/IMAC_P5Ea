@@ -1,11 +1,30 @@
+// -------------------
+//  Parameters and UI
+// -------------------
 
-function setup() {
-    template_CreateCanvas()
+const gui = new dat.GUI()
+const params = {
+    Ellipse_Size: 30,
+    Download_Image: () => save(),
 }
+gui.add(params, "Ellipse_Size", 0, 100, 1)
+gui.add(params, "Download_Image")
+
+// -------------------
+//       Drawing
+// -------------------
 
 function draw() {
     background(0)
-    ellipse(mouseX, mouseY, 30)
+    ellipse(mouseX, mouseY, params.Ellipse_Size)
+}
+
+// -------------------
+//    Initialization
+// -------------------
+
+function setup() {
+    template_CreateCanvas()
 }
 
 function windowResized() {
