@@ -49,10 +49,18 @@ let __canvas: p5.Renderer // Need to access this each time we resize the window,
 function __centerCanvas() {
     __canvas.position((windowWidth - width)/2, (windowHeight - height)/2)
 }
+/**
+ *   Creates a canvas to start drawing. This is a wrapper around the p5 function createCanvas(w, h) ;
+ *   it chooses the size automatically, based on the current option. You can change the option in the p6/chooseCanvasSize.ts file.
+ */
 function p6_CreateCanvas() {
     __canvas = createCanvas(__desiredCanvasWidth(), __desiredCanvasHeight())
     __centerCanvas()
 }
+/**
+ *   Resizes the canvas. This is a wrapper around the p5 function resizeCanvas(w, h) ;
+ *   it chooses the size automatically, based on the current option. You can change the option in the p6/chooseCanvasSize.ts file.
+ */
 function p6_ResizeCanvas() {
     resizeCanvas(__desiredCanvasWidth(), __desiredCanvasHeight())
     __centerCanvas()
