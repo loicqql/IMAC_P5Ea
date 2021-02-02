@@ -15,6 +15,7 @@ const template_SaveImageSequence = function(durationInFrames: number, fileExtens
                     return 'image/jpeg'
             }
         })()
+        // @ts-ignore
         canvas.elt.toBlob(blob => {
             p5.prototype.downloadFile(blob, filename, fileExtension)
             setTimeout(() => loop(), 100)
