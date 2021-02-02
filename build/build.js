@@ -15,37 +15,37 @@ function setup() {
 function windowResized() {
     p6_ResizeCanvas();
 }
-var p6_ASPECT_RATIO = 1;
-var p6_MARGIN_SIZE = 25;
-function p6_desiredCanvasWidth() {
+var __ASPECT_RATIO = 1;
+var __MARGIN_SIZE = 25;
+function __desiredCanvasWidth() {
     var windowRatio = windowWidth / windowHeight;
-    if (p6_ASPECT_RATIO > windowRatio) {
-        return windowWidth - p6_MARGIN_SIZE * 2;
+    if (__ASPECT_RATIO > windowRatio) {
+        return windowWidth - __MARGIN_SIZE * 2;
     }
     else {
-        return p6_desiredCanvasHeight() * p6_ASPECT_RATIO;
+        return __desiredCanvasHeight() * __ASPECT_RATIO;
     }
 }
-function p6_desiredCanvasHeight() {
+function __desiredCanvasHeight() {
     var windowRatio = windowWidth / windowHeight;
-    if (p6_ASPECT_RATIO > windowRatio) {
-        return p6_desiredCanvasWidth() / p6_ASPECT_RATIO;
+    if (__ASPECT_RATIO > windowRatio) {
+        return __desiredCanvasWidth() / __ASPECT_RATIO;
     }
     else {
-        return windowHeight - p6_MARGIN_SIZE * 2;
+        return windowHeight - __MARGIN_SIZE * 2;
     }
 }
-var p6_canvas;
-function p6_centerCanvas() {
-    p6_canvas.position((windowWidth - width) / 2, (windowHeight - height) / 2);
+var __canvas;
+function __centerCanvas() {
+    __canvas.position((windowWidth - width) / 2, (windowHeight - height) / 2);
 }
 function p6_CreateCanvas() {
-    p6_canvas = createCanvas(p6_desiredCanvasWidth(), p6_desiredCanvasHeight());
-    p6_centerCanvas();
+    __canvas = createCanvas(__desiredCanvasWidth(), __desiredCanvasHeight());
+    __centerCanvas();
 }
 function p6_ResizeCanvas() {
-    resizeCanvas(p6_desiredCanvasWidth(), p6_desiredCanvasHeight());
-    p6_centerCanvas();
+    resizeCanvas(__desiredCanvasWidth(), __desiredCanvasHeight());
+    __centerCanvas();
 }
 var p6_SaveImageSequence = function (durationInFrames, fileExtension) {
     if (frameCount <= durationInFrames) {
