@@ -1,3 +1,22 @@
+var template_SaveImageSequence = function (durationInFrames, fileExtension) {
+    if (frameCount <= durationInFrames) {
+        noLoop();
+        var filename_1 = nf(frameCount - 1, ceil(log(durationInFrames) / log(10)));
+        var mimeType = (function () {
+            switch (fileExtension) {
+                case 'png':
+                    return 'image/png';
+                case 'jpeg':
+                case 'jpg':
+                    return 'image/jpeg';
+            }
+        })();
+        canvas.elt.toBlob(function (blob) {
+            p5.prototype.downloadFile(blob, filename_1, fileExtension);
+            setTimeout(function () { return loop(); }, 100);
+        }, mimeType);
+    }
+};
 var ASPECT_RATIO = 1;
 var MARGIN_SIZE = 25;
 function desiredCanvasWidth() {
