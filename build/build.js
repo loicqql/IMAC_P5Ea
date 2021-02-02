@@ -1,4 +1,53 @@
-var template_SaveImageSequence = function (durationInFrames, fileExtension) {
+var gui = new dat.GUI();
+var params = {
+    Ellipse_Size: 30,
+    Download_Image: function () { return save(); },
+};
+gui.add(params, "Ellipse_Size", 0, 100, 1);
+gui.add(params, "Download_Image");
+function draw() {
+    background(0);
+    ellipse(mouseX, mouseY, params.Ellipse_Size);
+}
+function setup() {
+    p6_CreateCanvas();
+}
+function windowResized() {
+    p6_ResizeCanvas();
+}
+var p6_ASPECT_RATIO = 1;
+var p6_MARGIN_SIZE = 25;
+function p6_desiredCanvasWidth() {
+    var windowRatio = windowWidth / windowHeight;
+    if (p6_ASPECT_RATIO > windowRatio) {
+        return windowWidth - p6_MARGIN_SIZE * 2;
+    }
+    else {
+        return p6_desiredCanvasHeight() * p6_ASPECT_RATIO;
+    }
+}
+function p6_desiredCanvasHeight() {
+    var windowRatio = windowWidth / windowHeight;
+    if (p6_ASPECT_RATIO > windowRatio) {
+        return p6_desiredCanvasWidth() / p6_ASPECT_RATIO;
+    }
+    else {
+        return windowHeight - p6_MARGIN_SIZE * 2;
+    }
+}
+var p6_canvas;
+function p6_centerCanvas() {
+    p6_canvas.position((windowWidth - width) / 2, (windowHeight - height) / 2);
+}
+function p6_CreateCanvas() {
+    p6_canvas = createCanvas(p6_desiredCanvasWidth(), p6_desiredCanvasHeight());
+    p6_centerCanvas();
+}
+function p6_ResizeCanvas() {
+    resizeCanvas(p6_desiredCanvasWidth(), p6_desiredCanvasHeight());
+    p6_centerCanvas();
+}
+var p6_SaveImageSequence = function (durationInFrames, fileExtension) {
     if (frameCount <= durationInFrames) {
         noLoop();
         var filename_1 = nf(frameCount - 1, ceil(log(durationInFrames) / log(10)));
@@ -17,53 +66,4 @@ var template_SaveImageSequence = function (durationInFrames, fileExtension) {
         }, mimeType);
     }
 };
-var ASPECT_RATIO = 1;
-var MARGIN_SIZE = 25;
-function desiredCanvasWidth() {
-    var windowRatio = windowWidth / windowHeight;
-    if (ASPECT_RATIO > windowRatio) {
-        return windowWidth - MARGIN_SIZE * 2;
-    }
-    else {
-        return desiredCanvasHeight() * ASPECT_RATIO;
-    }
-}
-function desiredCanvasHeight() {
-    var windowRatio = windowWidth / windowHeight;
-    if (ASPECT_RATIO > windowRatio) {
-        return desiredCanvasWidth() / ASPECT_RATIO;
-    }
-    else {
-        return windowHeight - MARGIN_SIZE * 2;
-    }
-}
-var canvas;
-function _centerCanvas() {
-    canvas.position((windowWidth - width) / 2, (windowHeight - height) / 2);
-}
-function template_CreateCanvas() {
-    canvas = createCanvas(desiredCanvasWidth(), desiredCanvasHeight());
-    _centerCanvas();
-}
-function template_ResizeCanvas() {
-    resizeCanvas(desiredCanvasWidth(), desiredCanvasHeight());
-    _centerCanvas();
-}
-var gui = new dat.GUI();
-var params = {
-    Ellipse_Size: 30,
-    Download_Image: function () { return save(); },
-};
-gui.add(params, "Ellipse_Size", 0, 100, 1);
-gui.add(params, "Download_Image");
-function draw() {
-    background(0);
-    ellipse(mouseX, mouseY, params.Ellipse_Size);
-}
-function setup() {
-    template_CreateCanvas();
-}
-function windowResized() {
-    template_ResizeCanvas();
-}
 //# sourceMappingURL=../src/src/build.js.map
