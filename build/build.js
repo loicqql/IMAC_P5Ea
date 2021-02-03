@@ -60,7 +60,7 @@ var p6_SaveImageSequence = function (durationInFrames, fileExtension) {
                     return 'image/jpeg';
             }
         })();
-        canvas.elt.toBlob(function (blob) {
+        __canvas.elt.toBlob(function (blob) {
             p5.prototype.downloadFile(blob, filename_1, fileExtension);
             setTimeout(function () { return loop(); }, 100);
         }, mimeType);

@@ -18,8 +18,8 @@ const p6_SaveImageSequence = function(durationInFrames: number, fileExtension: "
                     return 'image/jpeg'
             }
         })()
-        // @ts-ignore
-        canvas.elt.toBlob(blob => {
+        __canvas.elt.toBlob(blob => {
+            // @ts-expect-error
             p5.prototype.downloadFile(blob, filename, fileExtension)
             setTimeout(() => loop(), 100)
         }, mimeType)
