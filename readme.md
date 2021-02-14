@@ -1,12 +1,13 @@
 # p5 template project
 
-## Getting Started
+## Installing
 
-You will need to have Node installed ([https://nodejs.org/](https://nodejs.org/))  
-Download this repository and open it in your favorite IDE (I would **highly** recommend VS Code ([https://code.visualstudio.com/](https://code.visualstudio.com/)))  
-Then open a terminal at the root of the folder (you can do it in VS Code by simply dragging up the bottom of the window) and type the following commands :
-
-### Installing
+- Install Node ([https://nodejs.org/](https://nodejs.org/)). Choose the LTS version (or the Current, it doesn't matter).
+- Install a good IDE if you don't have one already. I do highly recommend VS Code ([https://code.visualstudio.com/](https://code.visualstudio.com/)).
+- Download this repository (Use the green "Code" button at the top of the page -> "Download ZIP")
+- Extract the ZIP you just downloaded
+- Open the extracted folder in your IDE (like VS Code)
+- Open a terminal at the root of the folder (you can do it in VS Code by simply dragging up the bottom of the window) and type the following command :
 
 For Windows :
 ```
@@ -21,6 +22,8 @@ sudo npm i -g npm-run-all typescript browser-sync
 Only use this command the first time you ever use this template (-g means you install things globally)
 
 ### Launching
+
+Whenever you want to work on your project, simply launch it with
 
 ```
 npm start
