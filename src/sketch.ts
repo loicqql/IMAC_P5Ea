@@ -15,7 +15,7 @@ gui.add(params, "Download_Image")
 // -------------------
 
 function draw() {
-    background(0)
+    background("black")
     ellipse(mouseX, mouseY, params.Ellipse_Size)
 }
 
