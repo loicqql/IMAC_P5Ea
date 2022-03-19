@@ -1,11 +1,13 @@
-const GRIDSIZE = 20;
+/*
+
+const GRIDSIZE = 25;
 
 let def2PI = 6.28318530717958647693;
 let defPI = def2PI / 2;
 
 interface Coords {
     x:number,
-    y:number,
+    y:number
 };
 
 // const gui = new dat.GUI();
@@ -25,8 +27,8 @@ class Walker {
     duration:number;
     constructor() {
         this.tab = new Array();
-        this.x = Math.round(random(-300, 300));
-        this.y = Math.round(random(-300, 300));
+        this.x = 0;
+        this.y = 0;
     }
     
     render() {
@@ -41,19 +43,33 @@ class Walker {
     
     step() {
         
-        this.duration = Math.round(random(1, 5));
-        // this.duration = 1;
+        // this.duration = Math.round(random(1, 5));
+        this.duration = 1;
 
-        let randAngle = Math.round(random(-3, 3)) * 45; //360deg
-        if(randAngle % 90 != 0) {
-            this.duration = this.duration * Math.sqrt(2);
-        }
+        let reel = Math.round(random(1)) ? -1 : 1 // -1 or 1
+        let randAngle = Math.round(random(1, 3)) * reel * 45; //360deg
+        console.log(randAngle);
         randAngle = randAngle * def2PI / 360 ; //2pi
         this.angle =+ randAngle;
 
+
+        console.log(this.duration, this.angle);
+
         const p = p5.Vector.fromAngle(this.angle).mult(GRIDSIZE * this.duration);
-        this.x = this.x + p.x;
-        this.y = this.y + p.y;
+        this.x = this.x - p.x;
+        this.y = this.y - p.y;
+
+        // this.angle += d;
+
+        // if(params.right) {
+        //     if(this.angle % def2PI < defPI) {
+        //         this.angle += 0.05;
+        //     }
+    
+        //     if(this.angle % def2PI > defPI) {
+        //         this.angle -= 0.05;
+        //     }
+        // }
 
         this.tab.splice(0, 0, {'x': this.x, 'y' : this.y});
     }
@@ -89,3 +105,5 @@ function setup() {
 function windowResized() {
     p6_ResizeCanvas()
 }
+
+*/
