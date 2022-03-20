@@ -1,4 +1,4 @@
-const GRIDSIZE = 15;
+const GRIDSIZE = 30;
 const MAXAREAX = 360;
 const MAXAREAY = 360;
 
@@ -8,6 +8,9 @@ let defPI = def2PI / 2;
 interface Coords {
     x:number,
     y:number,
+    dx:number,
+    dy:number,
+    pattern:boolean;
 };
 
 // const gui = new dat.GUI();
@@ -25,10 +28,9 @@ class Walker {
     y:number;
     angle:number = def2PI / 4;
     duration:number;
+    pattern:boolean = false;
     constructor() {
         this.tab = new Array();
-        // this.x = Math.round(random(-300, 300));
-        // this.y = Math.round(random(-300, 300));
         this.x = 0;
         this.y = 0;
     }
@@ -38,7 +40,13 @@ class Walker {
             const el = this.tab[i];
             if(this.tab[i+1]) {
                 stroke(5);
-                line(this.tab[i].x, this.tab[i].y, this.tab[i+1].x, this.tab[i+1].y)
+                line(this.tab[i].x, this.tab[i].y, this.tab[i+1].x, this.tab[i+1].y);
+                if(this.tab[i].pattern) {
+                    for (let j = 0; j < 7; j++) {
+                        line(this.tab[i].x, this.tab[i].y + j, this.tab[i+1].x, this.tab[i+1].y + j)                 
+                    }
+                }
+                
             }
         }
     }
@@ -52,9 +60,16 @@ class Walker {
         this.duration = Math.round(random(1, 3));
         // this.duration = 1;
 
+        this.pattern = false;
+
+        
+
         let randAngle = Math.round(random(-4, 4)) * 45; //360deg
         if(randAngle % 90 != 0) {
             this.duration = this.duration * Math.sqrt(2);
+        }
+        if(randAngle % 180 == 0) {
+            this.pattern = Math.round(random(0, 5)) ? false: true;
         }
         randAngle = from360toPi(randAngle);
         this.angle =+ randAngle;
@@ -72,22 +87,46 @@ class Walker {
             y = this.y + p.y;
         }
 
-        this.x = x + p.x;
-        this.y = y + p.y;
-
+        this.x = x;
+        this.y = y;
 
         if(this.tab.length > 100) {
             this.tab.pop();
         }
 
         if(this.duration != 0) {
-            this.tab.splice(0, 0, {'x': this.x, 'y' : this.y});
+            this.tab.splice(0, 0, {'x': this.x, 'y' : this.y, 'pattern' : false, 'dx' : x, 'dy': y});
+
+            if(this.pattern) {
+                let h = Math.round(random(1, 5)) * GRIDSIZE;
+                let d = Math.round(random(1, 2)) * GRIDSIZE;
+                let n = Math.round(random(1, 3));
+                if(this.x < 0 && (this.x + (n*d*2) < MAXAREAX) && (this.y - h > -MAXAREAY)) {
+                    for (let i = 0; i < n; i++) {
+                        this.tab.splice(0, 0, {'x': this.x, 'y' : this.y + h, 'pattern' : false, 'dx' : x, 'dy': y});
+                        this.tab.splice(0, 0, {'x': this.x + d, 'y' : this.y + h, 'pattern' : true, 'dx' : x, 'dy': y});
+                        this.tab.splice(0, 0, {'x': this.x + d, 'y' : this.y, 'pattern' : false, 'dx' : x, 'dy': y});
+                        this.tab.splice(0, 0, {'x': this.x + d*2, 'y' : this.y, 'pattern' : false, 'dx' : x, 'dy': y});
+                        this.x = this.x + d*2;              
+                    }
+                }else if(this.x >= 0 && (this.x + (n*d*2) > MAXAREAX) && (this.y - h > -MAXAREAY)) {
+                    for (let i = 0; i < n; i++) {
+                        this.tab.splice(0, 0, {'x': this.x, 'y' : this.y + h, 'pattern' : false, 'dx' : x, 'dy': y});
+                        this.tab.splice(0, 0, {'x': this.x - d, 'y' : this.y + h, 'pattern' : true, 'dx' : x, 'dy': y});
+                        this.tab.splice(0, 0, {'x': this.x - d, 'y' : this.y, 'pattern' : false, 'dx' : x, 'dy': y});
+                        this.tab.splice(0, 0, {'x': this.x - d*2, 'y' : this.y, 'pattern' : false, 'dx' : x, 'dy': y});
+                        this.x = this.x - d*2;              
+                    }
+                }
+                
+            }
+
         }
 
-        ellipse(-300, -300, 25, 25);
-        ellipse(300, 300, 25, 25);
-        ellipse(300, -300, 25, 25);
-        ellipse(-300, 300, 25, 25);
+        // ellipse(-300, -300, 25, 25);
+        // ellipse(300, 300, 25, 25);
+        // ellipse(300, -300, 25, 25);
+        // ellipse(-300, 300, 25, 25);
     }
 
 }

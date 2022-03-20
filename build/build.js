@@ -1,4 +1,4 @@
-var GRIDSIZE = 15;
+var GRIDSIZE = 30;
 var MAXAREAX = 360;
 var MAXAREAY = 360;
 var def2PI = 6.28318530717958647693;
@@ -7,6 +7,7 @@ var defPI = def2PI / 2;
 var Walker = (function () {
     function Walker() {
         this.angle = def2PI / 4;
+        this.pattern = false;
         this.tab = new Array();
         this.x = 0;
         this.y = 0;
@@ -17,6 +18,11 @@ var Walker = (function () {
             if (this.tab[i + 1]) {
                 stroke(5);
                 line(this.tab[i].x, this.tab[i].y, this.tab[i + 1].x, this.tab[i + 1].y);
+                if (this.tab[i].pattern) {
+                    for (var j = 0; j < 7; j++) {
+                        line(this.tab[i].x, this.tab[i].y + j, this.tab[i + 1].x, this.tab[i + 1].y + j);
+                    }
+                }
             }
         }
     };
@@ -25,9 +31,13 @@ var Walker = (function () {
             return angle * def2PI / 360;
         };
         this.duration = Math.round(random(1, 3));
+        this.pattern = false;
         var randAngle = Math.round(random(-4, 4)) * 45;
         if (randAngle % 90 != 0) {
             this.duration = this.duration * Math.sqrt(2);
+        }
+        if (randAngle % 180 == 0) {
+            this.pattern = Math.round(random(0, 5)) ? false : true;
         }
         randAngle = from360toPi(randAngle);
         this.angle = +randAngle;
@@ -41,18 +51,37 @@ var Walker = (function () {
             x = this.x + p.x;
             y = this.y + p.y;
         }
-        this.x = x + p.x;
-        this.y = y + p.y;
+        this.x = x;
+        this.y = y;
         if (this.tab.length > 100) {
             this.tab.pop();
         }
         if (this.duration != 0) {
-            this.tab.splice(0, 0, { 'x': this.x, 'y': this.y });
+            this.tab.splice(0, 0, { 'x': this.x, 'y': this.y, 'pattern': false, 'dx': x, 'dy': y });
+            if (this.pattern) {
+                var h = Math.round(random(1, 5)) * GRIDSIZE;
+                var d = Math.round(random(1, 2)) * GRIDSIZE;
+                var n = Math.round(random(1, 3));
+                if (this.x < 0 && (this.x + (n * d * 2) < MAXAREAX) && (this.y - h > -MAXAREAY)) {
+                    for (var i = 0; i < n; i++) {
+                        this.tab.splice(0, 0, { 'x': this.x, 'y': this.y + h, 'pattern': false, 'dx': x, 'dy': y });
+                        this.tab.splice(0, 0, { 'x': this.x + d, 'y': this.y + h, 'pattern': true, 'dx': x, 'dy': y });
+                        this.tab.splice(0, 0, { 'x': this.x + d, 'y': this.y, 'pattern': false, 'dx': x, 'dy': y });
+                        this.tab.splice(0, 0, { 'x': this.x + d * 2, 'y': this.y, 'pattern': false, 'dx': x, 'dy': y });
+                        this.x = this.x + d * 2;
+                    }
+                }
+                else if (this.x >= 0 && (this.x + (n * d * 2) > MAXAREAX) && (this.y - h > -MAXAREAY)) {
+                    for (var i = 0; i < n; i++) {
+                        this.tab.splice(0, 0, { 'x': this.x, 'y': this.y + h, 'pattern': false, 'dx': x, 'dy': y });
+                        this.tab.splice(0, 0, { 'x': this.x - d, 'y': this.y + h, 'pattern': true, 'dx': x, 'dy': y });
+                        this.tab.splice(0, 0, { 'x': this.x - d, 'y': this.y, 'pattern': false, 'dx': x, 'dy': y });
+                        this.tab.splice(0, 0, { 'x': this.x - d * 2, 'y': this.y, 'pattern': false, 'dx': x, 'dy': y });
+                        this.x = this.x - d * 2;
+                    }
+                }
+            }
         }
-        ellipse(-300, -300, 25, 25);
-        ellipse(300, 300, 25, 25);
-        ellipse(300, -300, 25, 25);
-        ellipse(-300, 300, 25, 25);
     };
     return Walker;
 }());
