@@ -1,4 +1,6 @@
-var GRIDSIZE = 20;
+var GRIDSIZE = 15;
+var MAXAREAX = 360;
+var MAXAREAY = 360;
 var def2PI = 6.28318530717958647693;
 var defPI = def2PI / 2;
 ;
@@ -6,8 +8,8 @@ var Walker = (function () {
     function Walker() {
         this.angle = def2PI / 4;
         this.tab = new Array();
-        this.x = Math.round(random(-300, 300));
-        this.y = Math.round(random(-300, 300));
+        this.x = 0;
+        this.y = 0;
     }
     Walker.prototype.render = function () {
         for (var i = 0; i < this.tab.length; i++) {
@@ -19,17 +21,38 @@ var Walker = (function () {
         }
     };
     Walker.prototype.step = function () {
-        this.duration = Math.round(random(1, 5));
-        var randAngle = Math.round(random(-3, 3)) * 45;
+        var from360toPi = function (angle) {
+            return angle * def2PI / 360;
+        };
+        this.duration = Math.round(random(1, 3));
+        var randAngle = Math.round(random(-4, 4)) * 45;
         if (randAngle % 90 != 0) {
             this.duration = this.duration * Math.sqrt(2);
         }
-        randAngle = randAngle * def2PI / 360;
+        randAngle = from360toPi(randAngle);
         this.angle = +randAngle;
-        var p = p5.Vector.fromAngle(this.angle).mult(GRIDSIZE * this.duration);
-        this.x = this.x + p.x;
-        this.y = this.y + p.y;
-        this.tab.splice(0, 0, { 'x': this.x, 'y': this.y });
+        var p, x, y;
+        p = p5.Vector.fromAngle(this.angle).mult(GRIDSIZE * this.duration);
+        x = this.x + p.x;
+        y = this.y + p.y;
+        if (x > MAXAREAX || y > MAXAREAY || x < (MAXAREAX * -1) || y < (MAXAREAY * -1)) {
+            this.duration = 0;
+            p = p5.Vector.fromAngle(this.angle).mult(GRIDSIZE * this.duration);
+            x = this.x + p.x;
+            y = this.y + p.y;
+        }
+        this.x = x + p.x;
+        this.y = y + p.y;
+        if (this.tab.length > 100) {
+            this.tab.pop();
+        }
+        if (this.duration != 0) {
+            this.tab.splice(0, 0, { 'x': this.x, 'y': this.y });
+        }
+        ellipse(-300, -300, 25, 25);
+        ellipse(300, 300, 25, 25);
+        ellipse(300, -300, 25, 25);
+        ellipse(-300, 300, 25, 25);
     };
     return Walker;
 }());
@@ -42,7 +65,7 @@ function draw() {
 }
 function setup() {
     w = new Walker();
-    frameRate(30);
+    frameRate(15);
     p6_CreateCanvas();
 }
 function windowResized() {
