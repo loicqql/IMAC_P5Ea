@@ -1,8 +1,19 @@
+var Button = (function () {
+    function Button() {
+    }
+    Button.prototype.render = function () {
+        ellipse(-300, 300, 25, 25);
+    };
+    Button.prototype.step = function () {
+    };
+    return Button;
+}());
 var GRIDSIZE = 30;
 var MAXAREAX = 360;
 var MAXAREAY = 360;
 var def2PI = 6.28318530717958647693;
 var defPI = def2PI / 2;
+var song, analyzer;
 ;
 var Walker = (function () {
     function Walker() {
@@ -11,6 +22,7 @@ var Walker = (function () {
         this.tab = new Array();
         this.x = 0;
         this.y = 0;
+        song = loadSound('../assets/jagermeister.mp3');
     }
     Walker.prototype.render = function () {
         for (var i = 0; i < this.tab.length; i++) {
@@ -27,6 +39,9 @@ var Walker = (function () {
         }
     };
     Walker.prototype.step = function () {
+        if (analyzer) {
+            console.log(analyzer.getLevel());
+        }
         var from360toPi = function (angle) {
             return angle * def2PI / 360;
         };
@@ -91,15 +106,27 @@ var Walker = (function () {
     };
     return Walker;
 }());
-var w;
+var walker;
+var button;
 function draw() {
     background(255);
     translate(width / 2, height / 2);
-    w.step();
-    w.render();
+    walker.step();
+    walker.render();
+    button.step();
+    button.render();
+}
+function mousePressed() {
+    if (!song._playing) {
+        song.setVolume(0.01);
+        song.loop();
+        analyzer = new p5.Amplitude();
+        analyzer.setInput(song);
+    }
 }
 function setup() {
-    w = new Walker();
+    walker = new Walker();
+    button = new Button();
     frameRate(15);
     p6_CreateCanvas();
 }
