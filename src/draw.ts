@@ -1,9 +1,5 @@
-const GRIDSIZE = 30;
-const MAXAREAX = 360;
-const MAXAREAY = 360;
-
-let def2PI = 6.28318530717958647693;
-let defPI = def2PI / 2;
+const def2PI = 6.28318530717958647693;
+const defPI = def2PI / 2;
 
 let song, analyzer;
 

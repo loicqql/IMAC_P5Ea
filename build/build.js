@@ -1,16 +1,61 @@
+var basePath = "../assets/";
+var rectWidth = 450;
+var rectHeight = 70;
+var maxProgess = 100;
 var Button = (function () {
-    function Button() {
+    function Button(x, y, songTitle, songPath, startTime) {
+        this.x = x;
+        this.y = y;
+        this.songTitle = songTitle;
+        this.songPath = songPath;
+        this.startTime = startTime;
+        this.hover = false;
+        this.progress = 0;
+        this.isPlaying = false;
+        this.song = loadSound(basePath + songPath);
     }
     Button.prototype.render = function () {
-        ellipse(-300, 300, 25, 25);
+        fill(80, 80, 80);
+        rect(this.x - rectWidth / 2, this.y - rectHeight / 2, rectWidth * this.progress / maxProgess, rectHeight);
+        stroke(this.hover ? '255' : GRAY);
+        strokeWeight(2);
+        noFill();
+        rect(this.x - rectWidth / 2, this.y - rectHeight / 2, rectWidth, rectHeight);
+        textFont('Inter');
+        fill(this.hover ? '255' : GRAY);
+        strokeWeight(0);
+        textSize(18);
+        textAlign(CENTER, CENTER);
+        text(this.songTitle, this.x - rectWidth / 1.7, this.y - rectHeight / 2, rectWidth, rectHeight);
+        select('canvas').elt.style.letterSpacing = "3px";
     };
     Button.prototype.step = function () {
+        if ((mouseX > this.x - rectWidth / 2 + width / 2) && (mouseX < this.x + rectWidth / 2 + width / 2) && (mouseY > this.y - rectHeight / 2 + height / 2) && (mouseY < this.y + rectHeight / 2 + height / 2)) {
+            this.hover = true;
+            if (this.progress >= maxProgess) {
+                this.song.pause();
+            }
+            else {
+                this.progress++;
+            }
+            if (!this.isPlaying) {
+                this.song.play();
+                this.song.jump(this.startTime);
+                this.song.setVolume(0.01);
+                this.isPlaying = true;
+            }
+        }
+        else {
+            this.hover = false;
+            this.progress = 0;
+            if (this.isPlaying) {
+                this.song.pause();
+                this.isPlaying = false;
+            }
+        }
     };
     return Button;
 }());
-var GRIDSIZE = 30;
-var MAXAREAX = 360;
-var MAXAREAY = 360;
 var def2PI = 6.28318530717958647693;
 var defPI = def2PI / 2;
 var song, analyzer;
@@ -106,28 +151,25 @@ var Walker = (function () {
     };
     return Walker;
 }());
+var GRIDSIZE = 30;
+var MAXAREAX = 360;
+var MAXAREAY = 360;
 var walker;
 var button;
+var button2;
 function draw() {
-    background(255);
+    background(0);
     translate(width / 2, height / 2);
-    walker.step();
-    walker.render();
     button.step();
     button.render();
-}
-function mousePressed() {
-    if (!song._playing) {
-        song.setVolume(0.01);
-        song.loop();
-        analyzer = new p5.Amplitude();
-        analyzer.setInput(song);
-    }
+    button2.step();
+    button2.render();
 }
 function setup() {
     walker = new Walker();
-    button = new Button();
-    frameRate(15);
+    button = new Button(0, -50, "Da Tweekaz - Jägermeister", "jagermeister.mp3", 30);
+    button2 = new Button(0, 50, "Pegboard Nerds - Try This", "try-this.mp3", 23);
+    frameRate(10);
     p6_CreateCanvas();
 }
 function windowResized() {
