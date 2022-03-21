@@ -30,14 +30,14 @@ var Walker = (function () {
         var from360toPi = function (angle) {
             return angle * def2PI / 360;
         };
-        this.duration = Math.round(random(1, 3));
+        this.duration = Math.round(random(1, 4));
         this.pattern = false;
         var randAngle = Math.round(random(-4, 4)) * 45;
         if (randAngle % 90 != 0) {
             this.duration = this.duration * Math.sqrt(2);
         }
         if (randAngle % 180 == 0) {
-            this.pattern = Math.round(random(0, 5)) ? false : true;
+            this.pattern = Math.round(random(0, 3)) ? false : true;
         }
         randAngle = from360toPi(randAngle);
         this.angle = +randAngle;
@@ -69,6 +69,9 @@ var Walker = (function () {
                         this.tab.splice(0, 0, { 'x': this.x + d, 'y': this.y, 'pattern': false, 'dx': x, 'dy': y });
                         this.tab.splice(0, 0, { 'x': this.x + d * 2, 'y': this.y, 'pattern': false, 'dx': x, 'dy': y });
                         this.x = this.x + d * 2;
+                        for (var j = 0; j < 4; j++) {
+                            this.tab.pop();
+                        }
                     }
                 }
                 else if (this.x >= 0 && (this.x + (n * d * 2) > MAXAREAX) && (this.y - h > -MAXAREAY)) {
@@ -78,6 +81,9 @@ var Walker = (function () {
                         this.tab.splice(0, 0, { 'x': this.x - d, 'y': this.y, 'pattern': false, 'dx': x, 'dy': y });
                         this.tab.splice(0, 0, { 'x': this.x - d * 2, 'y': this.y, 'pattern': false, 'dx': x, 'dy': y });
                         this.x = this.x - d * 2;
+                        for (var j = 0; j < 4; j++) {
+                            this.tab.pop();
+                        }
                     }
                 }
             }
