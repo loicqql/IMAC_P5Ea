@@ -2,28 +2,46 @@ const GRIDSIZE = 30;
 const MAXAREAX = 360;
 const MAXAREAY = 360;
 
+const DRAWING_FRAMERATE = 20;
+const FRAMERATE = 120;
+let count = 0;
+
+let drawingMode = false;
+
 let walker:Walker;
 let button:Button;
 let button2:Button;
 // let button:Button;
 // let button:Button;
 
+let cursorCustom:Cursor;
+
 // -------------------
 //       Drawing
 // -------------------
 
 function draw() {
-    background(0);
     translate(width / 2, height / 2);
+    background(drawingMode ? 255 : 0);
 
-    // walker.step();
-    // walker.render();
+    if(drawingMode) {
+        walker.render();
+        if(count > FRAMERATE / DRAWING_FRAMERATE) {
+            walker.step();
+            count = 0;
+        }else {
+            count++;
+        }
+    }else {
+        button.step();
+        button.render();
 
-    button.step();
-    button.render();
+        button2.step();
+        button2.render();
+    }
 
-    button2.step();
-    button2.render();
+    cursorCustom.step();
+    cursorCustom.render(drawingMode ? false : true);
 
 }
 
@@ -32,24 +50,39 @@ function draw() {
 // -------------------
 
 function setup() {
+
     walker = new Walker();
 
     button = new Button(0, -50, "Da Tweekaz - Jägermeister", "jagermeister.mp3", 30);
     button2 = new Button(0, 50, "Pegboard Nerds - Try This", "try-this.mp3", 23);
 
+    cursorCustom = new Cursor();
 
-    frameRate(10);
+    frameRate(FRAMERATE);
+    
     p6_CreateCanvas();
 }
 
-// function mousePressed() {
-//     if (!song.isPlaying) {s
-//         song.setVolume(0.01);
-//         song.loop();
-//         analyzer = new p5.Amplitude();
-//         analyzer.setInput(song);
-//     }
-// }
+function keyTyped() {
+    if (key === ' ') {
+        drawingMode = false;
+        walker.reset();
+    }
+}
+
+function mousePressed() {
+    if(!drawingMode) {
+        if(button.isHover()) {
+            button.stop();
+            walker.load('jagermeister.mp3');
+            drawingMode = true;
+        } else if(button2.isHover()) {
+            button2.stop();
+            walker.load('try-this.mp3');
+            drawingMode = true;
+        }
+    }
+}
 
 function windowResized() {
     p6_ResizeCanvas()

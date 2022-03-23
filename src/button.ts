@@ -2,7 +2,7 @@ const basePath = "../assets/";
 const rectWidth = 450;
 const rectHeight = 70;
 
-const maxProgess = 100;
+const maxProgess = 1000;
 
 class Button {
     x:number
@@ -33,6 +33,7 @@ class Button {
 
         //progess
         fill(80,80,80);
+        noStroke();
         rect(this.x - rectWidth / 2, this.y - rectHeight / 2, rectWidth * this.progress / maxProgess, rectHeight);
         
         //rect
@@ -43,16 +44,16 @@ class Button {
         textFont('Inter');
 
         //text
+        select('canvas').elt.style.letterSpacing = "3px";
         fill(this.hover ? '255' : GRAY);
         strokeWeight(0);
         textSize(18);
         textAlign(CENTER, CENTER);
         text(this.songTitle, this.x - rectWidth / 1.7, this.y - rectHeight / 2, rectWidth, rectHeight);
-        select('canvas').elt.style.letterSpacing = "3px";
     }
 
     step() {
-        if((mouseX > this.x - rectWidth / 2 + width / 2) && (mouseX < this.x + rectWidth / 2 + width / 2) && (mouseY > this.y - rectHeight / 2 + height / 2) && (mouseY < this.y + rectHeight / 2 + height / 2)) {
+        if(this.isHover()) {
             this.hover = true;
             if(this.progress >= maxProgess) {
                 this.song.pause();
@@ -75,4 +76,14 @@ class Button {
         }
     }
 
+    isHover() {
+        return (mouseX > this.x - rectWidth / 2 + width / 2) && (mouseX < this.x + rectWidth / 2 + width / 2) && (mouseY > this.y - rectHeight / 2 + height / 2) && (mouseY < this.y + rectHeight / 2 + height / 2);
+    }
+
+    stop() {
+        this.song.pause();
+        this.hover = false;
+        this.progress = 0;
+        this.isPlaying = false;
+    }
 }

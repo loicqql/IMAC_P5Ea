@@ -1,7 +1,7 @@
 const def2PI = 6.28318530717958647693;
 const defPI = def2PI / 2;
 
-let song, analyzer;
+let analyzer;
 
 interface Coords {
     x: number,
@@ -12,25 +12,42 @@ interface Coords {
 };
 
 class Walker {
-    tab: Array<Coords>;
-    x: number;
-    y: number;
-    angle: number = def2PI / 4;
-    duration: number;
-    pattern: boolean = false;
+    tab:Array<Coords>
+    x:number
+    y:number
+    angle:number
+    duration:number
+    pattern:boolean
+    song:any;
+    isPlaying;
     constructor() {
+        this.reset();
+    }
+
+    reset() {
         this.tab = new Array();
         this.x = 0;
         this.y = 0;
+        this.angle = def2PI / 4;
+        this.pattern = false;
+        this.isPlaying = false;
+        if(this.song) {
+            this.song.pause();
+        }
+    }
+
+    load(songName:string) {
         //@ts-ignore
-        song = loadSound('../assets/jagermeister.mp3');
+        this.song = loadSound(basePath + songName);
+        this.reset();
     }
 
     render() {
+        stroke(0);
+        strokeWeight(1);
         for (let i = 0; i < this.tab.length; i++) {
             const el = this.tab[i];
             if (this.tab[i + 1]) {
-                stroke(5);
                 line(this.tab[i].x, this.tab[i].y, this.tab[i + 1].x, this.tab[i + 1].y);
                 if (this.tab[i].pattern) {
                     for (let j = 0; j < 7; j++) {
@@ -40,9 +57,27 @@ class Walker {
 
             }
         }
+
+        //text
+        select('canvas').elt.style.letterSpacing = "0px";
+        fill(0);
+        strokeWeight(0);
+        textSize(15);
+        textAlign(CENTER, CENTER);
+        text('exit : space', 0 - 150 / 2, (height/2 - 30) - 50 / 2, 150, 50);
     }
 
     step() {
+
+        if(!this.isPlaying) {
+            if(this.song.isLoaded()) {
+                this.song.loop();
+                this.song.jump(0);
+                this.song.setVolume(0.01);
+                this.isPlaying = true;
+            }
+            
+        }
 
         if (analyzer) {
             console.log(analyzer.getLevel());
@@ -130,5 +165,4 @@ class Walker {
         // ellipse(300, -300, 25, 25);
         // ellipse(-300, 300, 25, 25);
     }
-
 }
