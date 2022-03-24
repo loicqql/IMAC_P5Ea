@@ -222,6 +222,7 @@ var drawingMode = false;
 var walker;
 var button;
 var button2;
+var button3;
 var cursorCustom;
 function draw() {
     translate(width / 2, height / 2);
@@ -241,14 +242,17 @@ function draw() {
         button.render();
         button2.step();
         button2.render();
+        button3.step();
+        button3.render();
     }
     cursorCustom.step();
     cursorCustom.render(drawingMode ? false : true);
 }
 function setup() {
     walker = new Walker();
-    button = new Button(0, -50, "Da Tweekaz - Jägermeister", "jagermeister.mp3", 30);
-    button2 = new Button(0, 50, "Pegboard Nerds - Try This", "try-this.mp3", 23);
+    button = new Button(0, -100, "Da Tweekaz - Jägermeister", "jagermeister.mp3", 30);
+    button2 = new Button(0, 0, "Pegboard Nerds - Try This", "try-this.mp3", 23);
+    button3 = new Button(0, 100, "Woodkid - Run Boy Run", 'woodkid_run_run.mp3', 18);
     cursorCustom = new Cursor();
     frameRate(FRAMERATE);
     p6_CreateCanvas();
@@ -269,6 +273,11 @@ function mousePressed() {
         else if (button2.isHover()) {
             button2.stop();
             walker.load('try-this.mp3');
+            drawingMode = true;
+        }
+        if (button3.isHover()) {
+            button3.stop();
+            walker.load('woodkid_run_run.mp3');
             drawingMode = true;
         }
     }
