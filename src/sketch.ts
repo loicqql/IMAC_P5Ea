@@ -2,7 +2,7 @@ const GRIDSIZE = 30;
 const MAXAREAX = 360;
 const MAXAREAY = 360;
 
-const DRAWING_FRAMERATE = 20;
+const DRAWING_FRAMERATE = 30;
 const FRAMERATE = 120;
 let count = 0;
 
@@ -46,7 +46,15 @@ function draw() {
 
     cursorCustom.step();
     cursorCustom.render(drawingMode ? false : true);
+    
 
+    //text
+    select('canvas').elt.style.letterSpacing = "0px";
+    fill(drawingMode ? 0 : 255);
+    strokeWeight(0);
+    textSize(15);
+    textAlign(CENTER, CENTER);
+    text('Project Recoding - Loic Q & Ben R - IMAC1', - 500 / 2, -(height/2 - 30) - 50 / 2, 500, 50);
 }
 
 // -------------------

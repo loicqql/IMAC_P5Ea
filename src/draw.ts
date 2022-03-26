@@ -1,5 +1,7 @@
 let analyzer;
 
+let fft = new p5.FFT();
+
 interface Coords {
     x: number,
     y: number,
@@ -61,7 +63,7 @@ class Walker {
         strokeWeight(0);
         textSize(15);
         textAlign(CENTER, CENTER);
-        text('exit : space', 0 - 150 / 2, (height/2 - 30) - 50 / 2, 150, 50);
+        text('exit : space', - 150 / 2, (height/2 - 30) - 50 / 2, 150, 50);
     }
 
     step() {
@@ -73,32 +75,42 @@ class Walker {
                 this.song.setVolume(0.01);
                 this.isPlaying = true;
             }
-            
         }
 
-        if (analyzer) {
-            console.log(analyzer.getLevel());
-        }
-
-        const from360toPi = (angle) => {
+        const from360toPi = (angle:number) => {
             return angle * TWO_PI / 360; //2pi
         }
 
-        this.duration = Math.round(random(1, 4));
-        // this.duration = 1;
+        const mapFreq = (min:number, max:number, steps:number, number:number) => {
+            let step = (max-min) / steps;
+            let result = Math.ceil((number - min) / step);
+            return result > steps ? steps : result <= 0 ? 1 : result; 
+        }
+        
+        fft.analyze();
 
-        this.pattern = false;
+        if(fft.getEnergy('mid') < 2) { // 2 for noise
+            return;
+        }
+        
 
-
+        this.duration = mapFreq(25, 50, 4, fft.getEnergy('mid'));
 
         let randAngle = Math.round(random(-4, 4)) * 45; //360deg
+
         if (randAngle % 90 != 0) {
             this.duration = this.duration * Math.sqrt(2);
         }
-        if (randAngle % 180 == 0) {
-            this.pattern = Math.round(random(0, 3)) ? false : true;
-        }
+
+        this.pattern = false;
+        
         randAngle = from360toPi(randAngle);
+
+        if(fft.getEnergy('bass') > 110) {
+            this.pattern = true;
+            this.angle = from360toPi(180);
+        }
+
         this.angle = + randAngle;
 
         let p: any, x: any, y: any;
@@ -125,9 +137,9 @@ class Walker {
             this.tab.splice(0, 0, { 'x': this.x, 'y': this.y, 'pattern': false, 'dx': x, 'dy': y });
 
             if (this.pattern) {
-                let h = Math.round(random(1, 5)) * GRIDSIZE;
-                let d = Math.round(random(1, 2)) * GRIDSIZE;
-                let n = Math.round(random(1, 3));
+                let h = mapFreq(110, 130, 4, fft.getEnergy('bass')) * GRIDSIZE;
+                let d = mapFreq(110, 130, 2, fft.getEnergy('bass')) * GRIDSIZE;
+                let n = mapFreq(110, 130, 3, fft.getEnergy('bass'));
                 if (this.x < 0 && (this.x + (n * d * 2) < MAXAREAX) && (this.y - h > -MAXAREAY)) {
                     for (let i = 0; i < n; i++) {
                         this.tab.splice(0, 0, { 'x': this.x, 'y': this.y + h, 'pattern': false, 'dx': x, 'dy': y });

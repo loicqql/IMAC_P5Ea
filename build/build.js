@@ -67,6 +67,7 @@ var Button = (function () {
     return Button;
 }());
 var analyzer;
+var fft = new p5.FFT();
 ;
 var Walker = (function () {
     function Walker() {
@@ -106,7 +107,7 @@ var Walker = (function () {
         strokeWeight(0);
         textSize(15);
         textAlign(CENTER, CENTER);
-        text('exit : space', 0 - 150 / 2, (height / 2 - 30) - 50 / 2, 150, 50);
+        text('exit : space', -150 / 2, (height / 2 - 30) - 50 / 2, 150, 50);
     };
     Walker.prototype.step = function () {
         if (!this.isPlaying) {
@@ -117,22 +118,29 @@ var Walker = (function () {
                 this.isPlaying = true;
             }
         }
-        if (analyzer) {
-            console.log(analyzer.getLevel());
-        }
         var from360toPi = function (angle) {
             return angle * TWO_PI / 360;
         };
-        this.duration = Math.round(random(1, 4));
-        this.pattern = false;
+        var mapFreq = function (min, max, steps, number) {
+            var step = (max - min) / steps;
+            var result = Math.ceil((number - min) / step);
+            return result > steps ? steps : result <= 0 ? 1 : result;
+        };
+        fft.analyze();
+        if (fft.getEnergy('mid') < 2) {
+            return;
+        }
+        this.duration = mapFreq(25, 50, 4, fft.getEnergy('mid'));
         var randAngle = Math.round(random(-4, 4)) * 45;
         if (randAngle % 90 != 0) {
             this.duration = this.duration * Math.sqrt(2);
         }
-        if (randAngle % 180 == 0) {
-            this.pattern = Math.round(random(0, 3)) ? false : true;
-        }
+        this.pattern = false;
         randAngle = from360toPi(randAngle);
+        if (fft.getEnergy('bass') > 110) {
+            this.pattern = true;
+            this.angle = from360toPi(180);
+        }
         this.angle = +randAngle;
         var p, x, y;
         p = p5.Vector.fromAngle(this.angle).mult(GRIDSIZE * this.duration);
@@ -152,9 +160,9 @@ var Walker = (function () {
         if (this.duration != 0) {
             this.tab.splice(0, 0, { 'x': this.x, 'y': this.y, 'pattern': false, 'dx': x, 'dy': y });
             if (this.pattern) {
-                var h = Math.round(random(1, 5)) * GRIDSIZE;
-                var d = Math.round(random(1, 2)) * GRIDSIZE;
-                var n = Math.round(random(1, 3));
+                var h = mapFreq(110, 130, 4, fft.getEnergy('bass')) * GRIDSIZE;
+                var d = mapFreq(110, 130, 2, fft.getEnergy('bass')) * GRIDSIZE;
+                var n = mapFreq(110, 130, 3, fft.getEnergy('bass'));
                 if (this.x < 0 && (this.x + (n * d * 2) < MAXAREAX) && (this.y - h > -MAXAREAY)) {
                     for (var i = 0; i < n; i++) {
                         this.tab.splice(0, 0, { 'x': this.x, 'y': this.y + h, 'pattern': false, 'dx': x, 'dy': y });
@@ -213,7 +221,7 @@ var Cursor = (function () {
 var GRIDSIZE = 30;
 var MAXAREAX = 360;
 var MAXAREAY = 360;
-var DRAWING_FRAMERATE = 20;
+var DRAWING_FRAMERATE = 30;
 var FRAMERATE = 120;
 var count = 0;
 var drawingMode = false;
@@ -245,6 +253,12 @@ function draw() {
     }
     cursorCustom.step();
     cursorCustom.render(drawingMode ? false : true);
+    select('canvas').elt.style.letterSpacing = "0px";
+    fill(drawingMode ? 0 : 255);
+    strokeWeight(0);
+    textSize(15);
+    textAlign(CENTER, CENTER);
+    text('Project Recoding - Loic Q & Ben R - IMAC1', -500 / 2, -(height / 2 - 30) - 50 / 2, 500, 50);
 }
 function setup() {
     walker = new Walker();
