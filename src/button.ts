@@ -1,4 +1,4 @@
-const basePath = "../assets/";
+const basePath = "https://loicquinquenel.fr/IMAC_P5Ea/assets/";
 const rectWidth = 450;
 const rectHeight = 70;
 
