@@ -85,7 +85,7 @@ function mousePressed() {
             button2.stop();
             walker.load('try-this.mp3');
             drawingMode = true;
-        } if(button3.isHover()) {
+        } else if(button3.isHover()) {
             button3.stop();
             walker.load('woodkid_run_run.mp3');
             drawingMode = true;

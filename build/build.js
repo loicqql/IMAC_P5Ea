@@ -66,8 +66,6 @@ var Button = (function () {
     };
     return Button;
 }());
-var def2PI = 6.28318530717958647693;
-var defPI = def2PI / 2;
 var analyzer;
 ;
 var Walker = (function () {
@@ -78,7 +76,7 @@ var Walker = (function () {
         this.tab = new Array();
         this.x = 0;
         this.y = 0;
-        this.angle = def2PI / 4;
+        this.angle = TWO_PI / 4;
         this.pattern = false;
         this.isPlaying = false;
         if (this.song) {
@@ -123,7 +121,7 @@ var Walker = (function () {
             console.log(analyzer.getLevel());
         }
         var from360toPi = function (angle) {
-            return angle * def2PI / 360;
+            return angle * TWO_PI / 360;
         };
         this.duration = Math.round(random(1, 4));
         this.pattern = false;
@@ -275,7 +273,7 @@ function mousePressed() {
             walker.load('try-this.mp3');
             drawingMode = true;
         }
-        if (button3.isHover()) {
+        else if (button3.isHover()) {
             button3.stop();
             walker.load('woodkid_run_run.mp3');
             drawingMode = true;

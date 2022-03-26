@@ -1,6 +1,3 @@
-const def2PI = 6.28318530717958647693;
-const defPI = def2PI / 2;
-
 let analyzer;
 
 interface Coords {
@@ -28,7 +25,7 @@ class Walker {
         this.tab = new Array();
         this.x = 0;
         this.y = 0;
-        this.angle = def2PI / 4;
+        this.angle = TWO_PI / 4;
         this.pattern = false;
         this.isPlaying = false;
         if(this.song) {
@@ -84,7 +81,7 @@ class Walker {
         }
 
         const from360toPi = (angle) => {
-            return angle * def2PI / 360; //2pi
+            return angle * TWO_PI / 360; //2pi
         }
 
         this.duration = Math.round(random(1, 4));

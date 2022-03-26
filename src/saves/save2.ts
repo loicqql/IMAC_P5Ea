@@ -1,7 +1,5 @@
 // const GRIDSIZE = 20;
 
-// let def2PI = 6.28318530717958647693;
-// let defPI = def2PI / 2;
 // let xMax = 360;
 // let yMax = 360;
 
@@ -23,7 +21,7 @@
 //     tab:Array<Coords>;
 //     x:number;
 //     y:number;
-//     angle:number = def2PI / 4;
+//     angle:number = TWO_PI / 4;
 //     duration:number;
 //     constructor() {
 //         this.tab = new Array();
@@ -50,7 +48,7 @@
 //         if(randAngle % 90 != 0) {
 //             this.duration = this.duration * Math.sqrt(2);
 //         }
-//         randAngle = randAngle * def2PI / 360 ; //2pi
+//         randAngle = randAngle * TWO_PI / 360 ; //2pi
 //         this.angle =+ randAngle;
 
 //         const p = p5.Vector.fromAngle(this.angle).mult(GRIDSIZE * this.duration);

@@ -2,9 +2,6 @@
 
 const GRIDSIZE = 25;
 
-let def2PI = 6.28318530717958647693;
-let defPI = def2PI / 2;
-
 interface Coords {
     x:number,
     y:number
@@ -23,7 +20,7 @@ class Walker {
     tab:Array<Coords>;
     x:number;
     y:number;
-    angle:number = def2PI / 4;
+    angle:number = TWO_PI / 4;
     duration:number;
     constructor() {
         this.tab = new Array();
@@ -49,7 +46,7 @@ class Walker {
         let reel = Math.round(random(1)) ? -1 : 1 // -1 or 1
         let randAngle = Math.round(random(1, 3)) * reel * 45; //360deg
         console.log(randAngle);
-        randAngle = randAngle * def2PI / 360 ; //2pi
+        randAngle = randAngle * TWO_PI / 360 ; //2pi
         this.angle =+ randAngle;
 
 
@@ -62,11 +59,11 @@ class Walker {
         // this.angle += d;
 
         // if(params.right) {
-        //     if(this.angle % def2PI < defPI) {
+        //     if(this.angle % TWO_PI < PI) {
         //         this.angle += 0.05;
         //     }
     
-        //     if(this.angle % def2PI > defPI) {
+        //     if(this.angle % TWO_PI > PI) {
         //         this.angle -= 0.05;
         //     }
         // }
