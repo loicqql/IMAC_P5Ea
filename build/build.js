@@ -1,4 +1,4 @@
-var basePath = "../assets/";
+var basePath = "https://loicquinquenel.fr/IMAC_P5Ea/assets/";
 var rectWidth = 450;
 var rectHeight = 70;
 var maxProgess = 1000;
