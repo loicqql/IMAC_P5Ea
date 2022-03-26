@@ -84,8 +84,9 @@ var Walker = (function () {
             this.song.pause();
         }
     };
-    Walker.prototype.load = function (songName) {
+    Walker.prototype.load = function (songName, params) {
         this.song = loadSound(basePath + songName);
+        this.musicParams = params;
         this.reset();
     };
     Walker.prototype.render = function () {
@@ -130,14 +131,15 @@ var Walker = (function () {
         if (fft.getEnergy('mid') < 2) {
             return;
         }
-        this.duration = mapFreq(25, 50, 4, fft.getEnergy('mid'));
+        console.log(fft.getEnergy('bass'));
+        this.duration = mapFreq(this.musicParams.midMin, this.musicParams.midMax, 4, fft.getEnergy('mid'));
         var randAngle = Math.round(random(-4, 4)) * 45;
         if (randAngle % 90 != 0) {
             this.duration = this.duration * Math.sqrt(2);
         }
         this.pattern = false;
         randAngle = from360toPi(randAngle);
-        if (fft.getEnergy('bass') > 110) {
+        if (fft.getEnergy('bass') > this.musicParams.bassMin) {
             this.pattern = true;
             this.angle = from360toPi(180);
         }
@@ -160,9 +162,9 @@ var Walker = (function () {
         if (this.duration != 0) {
             this.tab.splice(0, 0, { 'x': this.x, 'y': this.y, 'pattern': false, 'dx': x, 'dy': y });
             if (this.pattern) {
-                var h = mapFreq(110, 130, 4, fft.getEnergy('bass')) * GRIDSIZE;
-                var d = mapFreq(110, 130, 2, fft.getEnergy('bass')) * GRIDSIZE;
-                var n = mapFreq(110, 130, 3, fft.getEnergy('bass'));
+                var h = mapFreq(this.musicParams.bassMin, this.musicParams.bassMax, 4, fft.getEnergy('bass')) * GRIDSIZE;
+                var d = mapFreq(this.musicParams.bassMin, this.musicParams.bassMax, 2, fft.getEnergy('bass')) * GRIDSIZE;
+                var n = mapFreq(this.musicParams.bassMin, this.musicParams.bassMax, 3, fft.getEnergy('bass'));
                 if (this.x < 0 && (this.x + (n * d * 2) < MAXAREAX) && (this.y - h > -MAXAREAY)) {
                     for (var i = 0; i < n; i++) {
                         this.tab.splice(0, 0, { 'x': this.x, 'y': this.y + h, 'pattern': false, 'dx': x, 'dy': y });
@@ -279,17 +281,17 @@ function mousePressed() {
     if (!drawingMode) {
         if (button.isHover()) {
             button.stop();
-            walker.load('jagermeister.mp3');
+            walker.load('jagermeister.mp3', { midMin: 25, midMax: 50, bassMin: 100, bassMax: 130 });
             drawingMode = true;
         }
         else if (button2.isHover()) {
             button2.stop();
-            walker.load('try-this.mp3');
+            walker.load('try-this.mp3', { midMin: 25, midMax: 50, bassMin: 100, bassMax: 130 });
             drawingMode = true;
         }
         else if (button3.isHover()) {
             button3.stop();
-            walker.load('woodkid_run_run.mp3');
+            walker.load('woodkid_run_run.mp3', { midMin: 25, midMax: 50, bassMin: 98, bassMax: 120 });
             drawingMode = true;
         }
     }

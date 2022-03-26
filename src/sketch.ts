@@ -17,6 +17,13 @@ let button3:Button;
 
 let cursorCustom:Cursor;
 
+interface musicParams {
+    midMin:number,
+    midMax:number,
+    bassMin:number,
+    bassMax:number,
+}
+
 // -------------------
 //       Drawing
 // -------------------
@@ -87,15 +94,15 @@ function mousePressed() {
     if(!drawingMode) {
         if(button.isHover()) {
             button.stop();
-            walker.load('jagermeister.mp3');
+            walker.load('jagermeister.mp3', {midMin:25, midMax:50, bassMin:100, bassMax:130});
             drawingMode = true;
         } else if(button2.isHover()) {
             button2.stop();
-            walker.load('try-this.mp3');
+            walker.load('try-this.mp3', {midMin:25, midMax:50, bassMin:100, bassMax:130});
             drawingMode = true;
         } else if(button3.isHover()) {
             button3.stop();
-            walker.load('woodkid_run_run.mp3');
+            walker.load('woodkid_run_run.mp3', {midMin:25, midMax:50, bassMin:98, bassMax:120});
             drawingMode = true;
         }
     }

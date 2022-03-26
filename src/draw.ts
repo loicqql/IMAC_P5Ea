@@ -18,6 +18,7 @@ class Walker {
     duration:number
     pattern:boolean
     song:any;
+    musicParams:musicParams;
     isPlaying;
     constructor() {
         this.reset();
@@ -35,10 +36,11 @@ class Walker {
         }
     }
 
-    load(songName:string) {
+    load(songName:string, params:musicParams) {
         //@ts-ignore
         this.song = loadSound(basePath + songName);
-        this.reset();
+        this.musicParams = params;
+        this.reset();    
     }
 
     render() {
@@ -92,9 +94,11 @@ class Walker {
         if(fft.getEnergy('mid') < 2) { // 2 for noise
             return;
         }
+
+        console.log(fft.getEnergy('bass'));
         
 
-        this.duration = mapFreq(25, 50, 4, fft.getEnergy('mid'));
+        this.duration = mapFreq(this.musicParams.midMin, this.musicParams.midMax, 4, fft.getEnergy('mid'));
 
         let randAngle = Math.round(random(-4, 4)) * 45; //360deg
 
@@ -106,7 +110,7 @@ class Walker {
         
         randAngle = from360toPi(randAngle);
 
-        if(fft.getEnergy('bass') > 110) {
+        if(fft.getEnergy('bass') > this.musicParams.bassMin) {
             this.pattern = true;
             this.angle = from360toPi(180);
         }
@@ -137,9 +141,9 @@ class Walker {
             this.tab.splice(0, 0, { 'x': this.x, 'y': this.y, 'pattern': false, 'dx': x, 'dy': y });
 
             if (this.pattern) {
-                let h = mapFreq(110, 130, 4, fft.getEnergy('bass')) * GRIDSIZE;
-                let d = mapFreq(110, 130, 2, fft.getEnergy('bass')) * GRIDSIZE;
-                let n = mapFreq(110, 130, 3, fft.getEnergy('bass'));
+                let h = mapFreq(this.musicParams.bassMin, this.musicParams.bassMax, 4, fft.getEnergy('bass')) * GRIDSIZE;
+                let d = mapFreq(this.musicParams.bassMin, this.musicParams.bassMax, 2, fft.getEnergy('bass')) * GRIDSIZE;
+                let n = mapFreq(this.musicParams.bassMin, this.musicParams.bassMax, 3, fft.getEnergy('bass'));
                 if (this.x < 0 && (this.x + (n * d * 2) < MAXAREAX) && (this.y - h > -MAXAREAY)) {
                     for (let i = 0; i < n; i++) {
                         this.tab.splice(0, 0, { 'x': this.x, 'y': this.y + h, 'pattern': false, 'dx': x, 'dy': y });
@@ -168,10 +172,5 @@ class Walker {
             }
 
         }
-
-        // ellipse(-300, -300, 25, 25);
-        // ellipse(300, 300, 25, 25);
-        // ellipse(300, -300, 25, 25);
-        // ellipse(-300, 300, 25, 25);
     }
 }
