@@ -131,7 +131,7 @@ var Walker = (function () {
         if (fft.getEnergy('mid') < 2) {
             return;
         }
-        console.log(fft.getEnergy('bass'));
+        console.log(fft.getEnergy('mid'));
         this.duration = mapFreq(this.musicParams.midMin, this.musicParams.midMax, 4, fft.getEnergy('mid'));
         var randAngle = Math.round(random(-4, 4)) * 45;
         if (randAngle % 90 != 0) {
@@ -297,12 +297,12 @@ function mousePressed() {
         if (!drawingMode) {
             if (button.isHover()) {
                 button.stop();
-                walker.load('miles-davis-walkin.mp3', { midMin: 25, midMax: 50, bassMin: 100, bassMax: 130 });
+                walker.load('miles-davis-walkin.mp3', { midMin: 25, midMax: 50, bassMin: 10, bassMax: 50 });
                 drawingMode = true;
             }
             else if (button2.isHover()) {
                 button2.stop();
-                walker.load('comme-un-volcan.mp3', { midMin: 25, midMax: 50, bassMin: 110, bassMax: 130 });
+                walker.load('comme-un-volcan.mp3', { midMin: 25, midMax: 50, bassMin: 20, bassMax: 50 });
                 drawingMode = true;
             }
             else if (button3.isHover()) {

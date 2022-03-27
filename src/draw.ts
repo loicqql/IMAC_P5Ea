@@ -95,7 +95,7 @@ class Walker {
             return;
         }
 
-        console.log(fft.getEnergy('bass'));
+        console.log(fft.getEnergy('mid'));
         
 
         this.duration = mapFreq(this.musicParams.midMin, this.musicParams.midMax, 4, fft.getEnergy('mid'));
