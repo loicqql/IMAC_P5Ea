@@ -85,7 +85,7 @@ function setup() {
     walker = new Walker();
 
     button = new Button(0, -150, "Miles Davis - Walkin", "miles-davis-walkin.mp3", 30);
-    button2 = new Button(0, -50, "Volcano - Comme un volcan", "comme-un-volcan.mp3", 23);
+    button2 = new Button(0, -50, "Rocky Volcano - Comme un volcan", "comme-un-volcan.mp3", 23);
     button3 = new Button(0, 50, "Pegboard Nerds - Try This", "try-this.mp3", 23);
     button4 = new Button(0, 150, "Woodkid - Run Boy Run", 'woodkid_run_run.mp3', 18)
 

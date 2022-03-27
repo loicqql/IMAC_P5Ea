@@ -26,9 +26,9 @@ var Button = (function () {
         select('canvas').elt.style.letterSpacing = "3px";
         fill(this.hover ? '255' : GRAY);
         strokeWeight(0);
-        textSize(18);
-        textAlign(CENTER, CENTER);
-        text(this.songTitle, this.x - rectWidth / 1.7, this.y - rectHeight / 2, rectWidth, rectHeight);
+        textSize(15);
+        textAlign(LEFT, CENTER);
+        text(this.songTitle, this.x - rectWidth / 2 + 50, this.y - rectHeight / 2, rectWidth + 50, rectHeight);
     };
     Button.prototype.step = function () {
         if (this.isHover()) {
@@ -279,7 +279,7 @@ function draw() {
 function setup() {
     walker = new Walker();
     button = new Button(0, -150, "Miles Davis - Walkin", "miles-davis-walkin.mp3", 30);
-    button2 = new Button(0, -50, "Volcano - Comme un volcan", "comme-un-volcan.mp3", 23);
+    button2 = new Button(0, -50, "Rocky Volcano - Comme un volcan", "comme-un-volcan.mp3", 23);
     button3 = new Button(0, 50, "Pegboard Nerds - Try This", "try-this.mp3", 23);
     button4 = new Button(0, 150, "Woodkid - Run Boy Run", 'woodkid_run_run.mp3', 18);
     cursorCustom = new Cursor();

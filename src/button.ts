@@ -47,9 +47,9 @@ class Button {
         select('canvas').elt.style.letterSpacing = "3px";
         fill(this.hover ? '255' : GRAY);
         strokeWeight(0);
-        textSize(18);
-        textAlign(CENTER, CENTER);
-        text(this.songTitle, this.x - rectWidth / 1.7, this.y - rectHeight / 2, rectWidth, rectHeight);
+        textSize(15);
+        textAlign(LEFT, CENTER);
+        text(this.songTitle, this.x - rectWidth / 2 + 50, this.y - rectHeight / 2, rectWidth + 50, rectHeight);
     }
 
     step() {
