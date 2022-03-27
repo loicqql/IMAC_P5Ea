@@ -108,11 +108,11 @@ function mousePressed() {
         if(!drawingMode) {
             if(button.isHover()) {
                 button.stop();
-                walker.load('miles-davis-walkin.mp3', {midMin:25, midMax:50, bassMin:10, bassMax:50});
+                walker.load('miles-davis-walkin.mp3', {midMin:10, midMax:40, bassMin:30, bassMax:60});
                 drawingMode = true;
             } else if(button2.isHover()) {
                 button2.stop();
-                walker.load('comme-un-volcan.mp3', {midMin:25, midMax:50, bassMin:20, bassMax:50});
+                walker.load('comme-un-volcan.mp3', {midMin:20, midMax:40, bassMin:45, bassMax:65});
                 drawingMode = true;
             } else if(button3.isHover()) {
                 button3.stop();

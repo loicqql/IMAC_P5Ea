@@ -26,7 +26,7 @@ var Button = (function () {
         select('canvas').elt.style.letterSpacing = "3px";
         fill(this.hover ? '255' : GRAY);
         strokeWeight(0);
-        textSize(15);
+        textSize(18);
         textAlign(LEFT, CENTER);
         text(this.songTitle, this.x - rectWidth / 2 + 50, this.y - rectHeight / 2, rectWidth + 50, rectHeight);
     };
@@ -131,7 +131,6 @@ var Walker = (function () {
         if (fft.getEnergy('mid') < 2) {
             return;
         }
-        console.log(fft.getEnergy('mid'));
         this.duration = mapFreq(this.musicParams.midMin, this.musicParams.midMax, 4, fft.getEnergy('mid'));
         var randAngle = Math.round(random(-4, 4)) * 45;
         if (randAngle % 90 != 0) {
@@ -297,12 +296,12 @@ function mousePressed() {
         if (!drawingMode) {
             if (button.isHover()) {
                 button.stop();
-                walker.load('miles-davis-walkin.mp3', { midMin: 25, midMax: 50, bassMin: 10, bassMax: 50 });
+                walker.load('miles-davis-walkin.mp3', { midMin: 10, midMax: 40, bassMin: 30, bassMax: 60 });
                 drawingMode = true;
             }
             else if (button2.isHover()) {
                 button2.stop();
-                walker.load('comme-un-volcan.mp3', { midMin: 25, midMax: 50, bassMin: 20, bassMax: 50 });
+                walker.load('comme-un-volcan.mp3', { midMin: 20, midMax: 40, bassMin: 45, bassMax: 65 });
                 drawingMode = true;
             }
             else if (button3.isHover()) {

@@ -93,10 +93,7 @@ class Walker {
 
         if(fft.getEnergy('mid') < 2) { // 2 for noise
             return;
-        }
-
-        console.log(fft.getEnergy('mid'));
-        
+        }    
 
         this.duration = mapFreq(this.musicParams.midMin, this.musicParams.midMax, 4, fft.getEnergy('mid'));
 
