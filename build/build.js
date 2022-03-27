@@ -273,7 +273,7 @@ function draw() {
     strokeWeight(0);
     textSize(15);
     textAlign(CENTER, CENTER);
-    text('Project Recoding - Loic Q & Ben R - IMAC1 - based ', -500 / 2, -(height / 2 - 30) - 50 / 2, 500, 50);
+    text('Project Recoding - Loic Q & Ben R - IMAC1', -500 / 2, -(height / 2 - 30) - 50 / 2, 500, 50);
     if (intro) {
         text('A recoding of the original artwork Random Walk I from Manfred Mohr', -500 / 2, (height / 2 - 30) - 50 / 2, 500, 50);
     }
