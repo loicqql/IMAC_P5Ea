@@ -68,6 +68,7 @@ var Button = (function () {
 }());
 var analyzer;
 var fft = new p5.FFT();
+;
 var Walker = (function () {
     function Walker() {
         this.reset();
