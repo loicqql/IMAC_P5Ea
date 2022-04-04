@@ -1,9 +1,16 @@
-var GRIDSIZE = 30;
-var MAXAREAX = 300;
-var MAXAREAY = 300;
+var GRIDSIZE = 3;
+var MAXAREAX = 50;
+var MAXAREAY = 50;
 var def2PI = 6.28318530717958647693;
 var defPI = def2PI / 2;
 ;
+var capturer = new CCapture({
+    framerate: 5,
+    format: "jpg",
+    name: "exportHorizontalLines",
+    quality: 100,
+    verbose: true,
+});
 var Walker = (function () {
     function Walker() {
         this.angle = def2PI / 4;
@@ -12,14 +19,19 @@ var Walker = (function () {
         this.x = 0;
         this.y = 0;
     }
+    Walker.prototype.clear = function () {
+        this.tab = new Array();
+        this.x = 0;
+        this.y = 0;
+    };
     Walker.prototype.render = function () {
         for (var i = 0; i < this.tab.length; i++) {
             var el = this.tab[i];
             if (this.tab[i + 1]) {
-                stroke(5);
+                stroke(0.5);
                 line(this.tab[i].x, this.tab[i].y, this.tab[i + 1].x, this.tab[i + 1].y);
                 if (this.tab[i].pattern) {
-                    for (var j = 0; j < 7; j++) {
+                    for (var j = 0; j < 3; j++) {
                         line(this.tab[i].x, this.tab[i].y + j, this.tab[i + 1].x, this.tab[i + 1].y + j);
                     }
                 }
@@ -53,9 +65,6 @@ var Walker = (function () {
         }
         this.x = x;
         this.y = y;
-        if (this.tab.length > 100) {
-            this.tab.pop();
-        }
         if (this.duration != 0) {
             this.tab.splice(0, 0, { 'x': this.x, 'y': this.y, 'pattern': false, 'dx': x, 'dy': y });
             if (this.pattern) {
@@ -93,10 +102,21 @@ var Walker = (function () {
 }());
 var w;
 function draw() {
+    if (frameCount === 1)
+        capturer.start();
     background(255);
     translate(width / 2, height / 2);
-    w.step();
+    for (var i = 0; i < 70; i++) {
+        w.step();
+    }
     w.render();
+    w.clear();
+    capturer.capture(canvas);
+    if (frameCount === 10000) {
+        noLoop();
+        capturer.stop();
+        capturer.save();
+    }
 }
 function setup() {
     w = new Walker();
@@ -131,7 +151,7 @@ function __centerCanvas() {
     __canvas.position((windowWidth - width) / 2, (windowHeight - height) / 2);
 }
 function p6_CreateCanvas() {
-    __canvas = createCanvas(__desiredCanvasWidth(), __desiredCanvasHeight());
+    __canvas = createCanvas(64, 64);
     __centerCanvas();
 }
 function p6_ResizeCanvas() {

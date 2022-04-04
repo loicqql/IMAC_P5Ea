@@ -1,6 +1,6 @@
-const GRIDSIZE = 30;
-const MAXAREAX = 300;
-const MAXAREAY = 300;
+const GRIDSIZE = 3;
+const MAXAREAX = 50;
+const MAXAREAY = 50;
 
 let def2PI = 6.28318530717958647693;
 let defPI = def2PI / 2;
@@ -13,14 +13,14 @@ interface Coords {
     pattern:boolean;
 };
 
-// const gui = new dat.GUI();
-// const params = {
-//     right: true,
-//     Download_Image: () => save(),
-// };
-
-// gui.add(params, "right");
-// gui.add(params, "Download_Image");
+//@ts-ignore
+const capturer = new CCapture({
+    framerate: 5,
+    format: "jpg",
+    name: "exportHorizontalLines",
+    quality: 100,
+    verbose: true,
+});
 
 class Walker {
     tab:Array<Coords>;
@@ -34,15 +34,21 @@ class Walker {
         this.x = 0;
         this.y = 0;
     }
+
+    clear() {
+        this.tab = new Array();
+        this.x = 0;
+        this.y = 0;
+    }
     
     render() {
         for (let i = 0; i < this.tab.length; i++) {
             const el = this.tab[i];
             if(this.tab[i+1]) {
-                stroke(5);
+                stroke(0.5);
                 line(this.tab[i].x, this.tab[i].y, this.tab[i+1].x, this.tab[i+1].y);
                 if(this.tab[i].pattern) {
-                    for (let j = 0; j < 7; j++) {
+                    for (let j = 0; j < 3; j++) {
                         line(this.tab[i].x, this.tab[i].y + j, this.tab[i+1].x, this.tab[i+1].y + j)                 
                     }
                 }
@@ -90,10 +96,6 @@ class Walker {
         this.x = x;
         this.y = y;
 
-        if(this.tab.length > 100) {
-            this.tab.pop();
-        }
-
         if(this.duration != 0) {
             this.tab.splice(0, 0, {'x': this.x, 'y' : this.y, 'pattern' : false, 'dx' : x, 'dy': y});
 
@@ -130,10 +132,6 @@ class Walker {
 
         }
 
-        // ellipse(-300, -300, 25, 25);
-        // ellipse(300, 300, 25, 25);
-        // ellipse(300, -300, 25, 25);
-        // ellipse(-300, 300, 25, 25);
     }
 
 }
@@ -145,11 +143,27 @@ class Walker {
 let w:Walker;
 
 function draw() {
+    if (frameCount === 1) capturer.start();
+
     background(255);
     translate(width / 2, height / 2);
 
-    w.step();
+    for (let i = 0; i < 70; i++) {        
+        w.step();
+    }
+
     w.render();
+
+    w.clear();
+
+    //@ts-ignore
+    capturer.capture(canvas);
+
+    if (frameCount === 10000) {
+        noLoop();
+        capturer.stop();
+        capturer.save();
+    }
 
 }
 
