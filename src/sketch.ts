@@ -45,7 +45,8 @@ class Walker {
         for (let i = 0; i < this.tab.length; i++) {
             const el = this.tab[i];
             if(this.tab[i+1]) {
-                stroke(0.5);
+                stroke(this.color(this.tab[i].x, this.tab[i].y));
+                strokeWeight(2);
                 line(this.tab[i].x, this.tab[i].y, this.tab[i+1].x, this.tab[i+1].y);
                 if(this.tab[i].pattern) {
                     for (let j = 0; j < 3; j++) {
@@ -54,6 +55,14 @@ class Walker {
                 }
                 
             }
+        }
+    }
+
+    color(x:number, y:number) {
+        if(x > 0) {
+            return y > 0 ? '#1515d9' : '#fe0000';
+        }else {
+            return y > 0 ? '#13fb13' : '#ff00fe';
         }
     }
     
@@ -156,7 +165,7 @@ function draw() {
 
     w.clear();
 
-    //@ts-ignore
+    // //@ts-ignore
     capturer.capture(canvas);
 
     if (frameCount === 10000) {

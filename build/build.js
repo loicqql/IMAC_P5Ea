@@ -28,7 +28,8 @@ var Walker = (function () {
         for (var i = 0; i < this.tab.length; i++) {
             var el = this.tab[i];
             if (this.tab[i + 1]) {
-                stroke(0.5);
+                stroke(this.color(this.tab[i].x, this.tab[i].y));
+                strokeWeight(2);
                 line(this.tab[i].x, this.tab[i].y, this.tab[i + 1].x, this.tab[i + 1].y);
                 if (this.tab[i].pattern) {
                     for (var j = 0; j < 3; j++) {
@@ -36,6 +37,14 @@ var Walker = (function () {
                     }
                 }
             }
+        }
+    };
+    Walker.prototype.color = function (x, y) {
+        if (x > 0) {
+            return y > 0 ? '#1515d9' : '#fe0000';
+        }
+        else {
+            return y > 0 ? '#13fb13' : '#ff00fe';
         }
     };
     Walker.prototype.step = function () {
@@ -112,7 +121,7 @@ function draw() {
     w.render();
     w.clear();
     capturer.capture(canvas);
-    if (frameCount === 10000) {
+    if (frameCount === 100) {
         noLoop();
         capturer.stop();
         capturer.save();
